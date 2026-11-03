@@ -9,7 +9,7 @@ export default function AllBooksPage() {
 
   useEffect(() => {
     document.title = "BookNook | All Books"; 
-    // সার্ভার থেকে বইয়ের ডাটা আনা হচ্ছে
+    
     const fetchBooks = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/books");
