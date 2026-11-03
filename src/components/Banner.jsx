@@ -4,7 +4,6 @@ import Swiper from "swiper";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Link from "next/link";
 
-// Swiper এর প্রয়োজনীয় CSS ইমপোর্ট
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -34,7 +33,7 @@ export default function Banner() {
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    // React-এর বদলে সরাসরি Swiper ইনিশিয়ালাইজ করা হচ্ছে
+    
     if (swiperRef.current) {
       const swiper = new Swiper(swiperRef.current, {
         modules: [Autoplay, Pagination, Navigation],
@@ -62,7 +61,7 @@ export default function Banner() {
 
   return (
     <div className="w-full h-[60vh] md:h-[75vh] bg-base-200">
-      {/* Swiper কন্টেইনার */}
+      {/* Swiper */}
       <div ref={swiperRef} className="swiper w-full h-full">
         <div className="swiper-wrapper">
           {sliderData.map((slide) => (
