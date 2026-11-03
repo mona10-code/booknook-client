@@ -67,7 +67,7 @@ export default function Footer() {
 
       {/* কপিরাইট লাইন */}
       <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-base-content/10 text-center text-sm text-base-content/60">
-        {/*  এখানে currentYear  */}
+        {/* currentYear  */}
         <p>&copy; {currentYear} BookNook. All rights reserved.</p>
       </div>
     </footer>

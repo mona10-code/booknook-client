@@ -3,7 +3,7 @@ import { FaSearch, FaBookReader, FaUndoAlt } from "react-icons/fa";
 export default function HowItWorks() {
   const steps = [
     {
-      id: 1, // id আগের মতোই থাকলো, কিন্তু স্ক্রিনে দেখাবে না
+      id: 1, 
       title: "Find a Book",
       description: "Browse our vast collection and find the perfect book for your next reading adventure.",
       icon: <FaSearch />,
