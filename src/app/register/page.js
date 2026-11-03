@@ -9,7 +9,7 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [image, setImage] = useState(""); // নতুন: ছবির লিঙ্ক
+  const [image, setImage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +17,6 @@ export default function RegisterPage() {
     e.preventDefault();
     setError("");
 
-    // পাসওয়ার্ড ভ্যালিডেশন (ডকুমেন্ট অনুযায়ী)
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
       return;
@@ -33,19 +32,18 @@ export default function RegisterPage() {
 
     setLoading(true);
 
-    // BetterAuth এর রেজিস্ট্রেশন ফাংশন
+    // BetterAuth
     const { data, error } = await authClient.signUp.email({
       email,
       password,
       name,
-      image, // ছবির লিঙ্ক পাঠানো হচ্ছে
+      image,
     });
 
     if (error) {
       setError(error.message);
       setLoading(false);
     } else {
-      // ডকুমেন্ট অনুযায়ী রেজিস্ট্রেশন সফল হলে লগইন পেজে পাঠাতে হবে
       router.push("/login");
     }
   };
