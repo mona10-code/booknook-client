@@ -11,13 +11,11 @@ export default function MyBooksPage() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   
-  // এডিট এবং ডিলিট মডালের স্টেট
   const [editBook, setEditBook] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [deleteBookId, setDeleteBookId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  // প্রাইভেট রুট প্রোটেকশন
   useEffect(() => {
     document.title = "BookNook | My Books";
     if (!isPending && !session) {
@@ -52,7 +50,7 @@ export default function MyBooksPage() {
     setIsDeleteModalOpen(true);
   };
 
-  // ডিলিট ফাংশন (JWT টোকেন এবং 401 চেক সহ)
+  
   const confirmDelete = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/books/${deleteBookId}`, { 
@@ -64,7 +62,7 @@ export default function MyBooksPage() {
       
       const result = await response.json();
       
-      // Unauthorized চেক
+      // Unauthorized 
       if (response.status === 401 || response.status === 403) {
         showToast("Unauthorized! Please login again.", "error");
         return;
@@ -87,7 +85,7 @@ export default function MyBooksPage() {
     setIsEditModalOpen(true);
   };
 
-  // আপডেট ফাংশন (JWT টোকেন এবং 401 চেক সহ)
+  
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -102,7 +100,7 @@ export default function MyBooksPage() {
       
       const result = await response.json();
       
-      // Unauthorized চেক
+      // Unauthorized 
       if (response.status === 401 || response.status === 403) {
         showToast("Unauthorized! Please login again.", "error");
         return;
