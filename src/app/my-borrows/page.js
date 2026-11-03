@@ -11,7 +11,6 @@ export default function MyBorrowsPage() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
-  // প্রাইভেট রুট প্রোটেকশন
   useEffect(() => {
     document.title = "BookNook | My Borrows";
     if (!isPending && !session) {
