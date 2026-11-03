@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ইমেইল ও পাসওয়ার্ড দিয়ে লগইন
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -32,12 +32,12 @@ export default function LoginPage() {
     }
   };
 
-  // গুগল দিয়ে লগইন (নতুন যুক্ত করা হলো)
+  
   const handleGoogleLogin = async () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/", // লগইন সফল হলে হোম পেজে নিয়ে যাবে
+        callbackURL: "/", 
       });
     } catch (err) {
       setError("Failed to login with Google.");
