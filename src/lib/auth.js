@@ -17,7 +17,7 @@ export const auth = betterAuth({
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ["google"], // গুগলকে ট্রাস্টেড প্রোভাইডার হিসেবে সেট করা
+      trustedProviders: ["google"],
     },
   },
   socialProviders: {
