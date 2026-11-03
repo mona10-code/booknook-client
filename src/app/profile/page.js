@@ -18,7 +18,6 @@ export default function ProfilePage() {
   useEffect(() => {
     document.title = "BookNook | My Profile";
     
-    // থিম চেক করার লজিক
     const checkTheme = () => {
       const theme = document.documentElement.getAttribute("data-theme") || "light";
       setCurrentTheme(theme);
@@ -81,11 +80,6 @@ export default function ProfilePage() {
   if (!session) return null;
 
   const isDark = currentTheme === "dark";
-
-  // 🎨 কালার ভ্যারিয়েবল (তুমি এখানে রঙ পরিবর্তন করতে পারবে)
-  // bgOuter = পুরো পেজের ব্যাকগ্রাউন্ড
-  // bgCard = মেইন কার্ডের ব্যাকগ্রাউন্ড
-  // bgInner = ভেতরের ছোট কার্ডের ব্যাকগ্রাউন্ড (আমি এখানে হালকা নীল/স্লেট শেড দিয়েছি)
   
   const bgOuter = isDark ? "bg-slate-950" : "bg-gray-200";
   const bgCard = isDark ? "bg-slate-900" : "bg-[#f0f9ff]"; 
@@ -113,7 +107,7 @@ export default function ProfilePage() {
           {/* ইউজারের নাম */}
           <h2 className={`text-3xl font-extrabold ${textMain} mb-3`}>{session.user.name}</h2>
           
-          {/* ইমেইল (ভেতরের কার্ডের কালার ব্যবহার করা হয়েছে) */}
+          {/* ইমেইল */}
           <p className={`${textSub} flex items-center gap-2 text-sm md:text-base mb-6 font-medium ${bgInner} px-4 py-2 rounded-full`}>
             <FaEnvelope /> {session.user.email}
           </p>
@@ -130,7 +124,7 @@ export default function ProfilePage() {
 
           {/* ডিটেইলস সেকশন */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Account Name কার্ড */}
+            {/* Account Name */}
             <div className={`${bgInner} p-5 rounded-2xl flex items-center gap-4 border ${borderColor} shadow-sm`}>
               <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl shrink-0">
                 <FaUser />
@@ -141,7 +135,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* User ID কার্ড */}
+            {/* User ID */}
             <div className={`${bgInner} p-5 rounded-2xl flex items-center gap-4 border ${borderColor} shadow-sm`}>
               <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl shrink-0">
                 <FaCalendarAlt />
@@ -153,7 +147,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* অ্যাকশন বাটনগুলো (ভেতরের কার্ডের কালার ব্যবহার করা হয়েছে) */}
+          {/* অ্যাকশন বাটন */}
           <div className="mt-10 flex flex-col md:flex-row gap-3 justify-center w-full">
             <Link href="/my-books" className={`btn ${bgInner} ${textMain} border-none flex-1 shadow-sm hover:opacity-80`}>
               My Books
