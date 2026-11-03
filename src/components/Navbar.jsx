@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const router = useRouter();
   const [theme, setTheme] = useState("light");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // ড্রপডাউন স্টেট
-  const dropdownRef = useRef(null); // বাইরে ক্লিক করলে বন্ধ করার জন্য
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const dropdownRef = useRef(null); 
 
   const { data: session, isPending } = authClient.useSession();
 
@@ -18,7 +18,6 @@ export default function Navbar() {
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
 
-    // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ করার লজিক
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -45,7 +44,7 @@ export default function Navbar() {
     <nav className="bg-base-200 shadow-sm px-4 md:px-10 py-3 transition-colors duration-300">
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
         
-        {/* ১. বাম দিক: লোগো */}
+        {/* লোগো */}
         <div className="flex-1">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
             <FaBookOpen className="text-2xl" />
@@ -53,7 +52,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* ২. মাঝখানে: মেনু লিস্ট */}
+        {/* মেনু লিস্ট */}
         <div className="hidden md:flex flex-1 justify-center items-center gap-6 lg:gap-8 font-medium text-sm lg:text-base whitespace-nowrap">
           <Link href="/" className="text-base-content/80 hover:text-primary transition-colors">Home</Link>
           <Link href="/books" className="text-base-content/80 hover:text-primary transition-colors">All Books</Link>
@@ -62,7 +61,7 @@ export default function Navbar() {
           <Link href="/my-borrows" className="text-base-content/80 hover:text-primary transition-colors">My Borrows</Link>
         </div>
 
-        {/* ৩. ডান দিক: ডার্ক মোড, লগইন/লগআউট */}
+        {/* ডার্ক মোড, লগইন/লগআউট */}
         <div className="flex-1 flex justify-end items-center gap-3">
           
           <button onClick={toggleTheme} className="btn btn-ghost btn-circle text-lg">
@@ -72,7 +71,7 @@ export default function Navbar() {
           {isPending ? (
             <span className="loading loading-spinner loading-sm"></span>
           ) : session ? (
-            // কাস্টম ড্রপডাউন
+            
             <div className="relative" ref={dropdownRef}>
               <button 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
