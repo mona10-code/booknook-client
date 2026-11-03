@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react"; // ১. নতুন ইমপোর্ট যুক্ত হলো
+import { useState, useEffect } from "react"; 
 import { FaBookOpen, FaFacebook, FaGithub, FaEnvelope, FaPhone } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
-  // ২. বর্তমান বছর রাখার জন্য একটি স্টেট তৈরি করলাম
+  
   const [currentYear, setCurrentYear] = useState(""); 
 
-  // ৩. useEffect ব্যবহার করে পেজ লোড হওয়ার পর বছরটা সেট করব
+  //  useEffect
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
@@ -67,7 +67,7 @@ export default function Footer() {
 
       {/* কপিরাইট লাইন */}
       <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-base-content/10 text-center text-sm text-base-content/60">
-        {/* ৪. এখানে currentYear স্টেটটি ব্যবহার করা হলো */}
+        {/*  এখানে currentYear  */}
         <p>&copy; {currentYear} BookNook. All rights reserved.</p>
       </div>
     </footer>
