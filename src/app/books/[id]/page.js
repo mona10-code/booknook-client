@@ -12,7 +12,7 @@ function BookDetailsContent() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // মডাল স্টেট
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function BookDetailsContent() {
       if (result.success) {
         showToast("Book borrowed successfully! Check 'My Borrows'.", "success");
         setIsEditModalOpen(false);
-        // কপি সংখ্যা ১ কমিয়ে UI আপডেট করা
+        
         setBook({ ...book, totalCopies: book.totalCopies - 1 });
       } else {
         showToast(result.message, "error");
