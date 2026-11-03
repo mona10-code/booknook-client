@@ -19,9 +19,9 @@ export default function AddBookPage() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
-  // ১. Private Route Protection: লগইন না থাকলে লগইন পেজে পাঠাবে
+  //  Private Route Protection
   useEffect(() => {
-    document.title = "BookNook | Add Book"; // ২. Page Title আপডেট
+    document.title = "BookNook | Add Book"; 
     if (!isPending && !session) {
       router.push("/login");
     }
@@ -47,7 +47,6 @@ export default function AddBookPage() {
     setLoading(true);
 
     try {
-      // ছবি ImgBB-তে আপলোড
       const imageData = new FormData();
       imageData.append("image", imageFile);
       
@@ -60,8 +59,6 @@ export default function AddBookPage() {
       if (!imgbbResult.success) throw new Error("Image upload failed!");
 
       const imageUrl = imgbbResult.data.url;
-
-      // ব্যাকএন্ডে ডাটা পাঠানো
       const bookDataToSave = { 
         ...formData, 
         image: imageUrl, 
@@ -84,10 +81,10 @@ export default function AddBookPage() {
         showToast("Book added successfully!", "success");
         setFormData({ title: "", author: "", category: "Fiction", image: "", description: "" });
         setImageFile(null);
-        // সাকসেস হলে সরাসরি All Books পেজে নিয়ে যাবে
+        
         setTimeout(() => router.push("/books"), 2000);
       }  else if (serverResponse.status === 401 || serverResponse.status === 403) {
-        // টোকেন না থাকলে বা ইনভ্যালিড হলে
+        
         showToast("Unauthorized! Please login again.", "error");
       } else {
         throw new Error(serverResult.message);
@@ -99,12 +96,11 @@ export default function AddBookPage() {
     }
   };
 
-  // সেশন চেক হওয়ার আগে লোডিং দেখাবে
+  
   if (isPending) {
     return <div className="text-center mt-20"><span className="loading loading-spinner loading-lg text-primary"></span></div>;
   }
 
-  // সেশন না থাকলে কিছুই রেন্ডার করবে না (কারণ সে লগইন পেজে চলে যাবে)
   if (!session) return null;
 
   return (
