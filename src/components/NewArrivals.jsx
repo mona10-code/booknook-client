@@ -7,14 +7,14 @@ export default function NewArrivals() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // সার্ভার থেকে আসল বইগুলোর ডাটা আনা হচ্ছে
+    
     const fetchBooks = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/books");
         const result = await response.json();
         
         if (result.success) {
-          // ডকুমেন্ট অনুযায়ী শুধু নতুন ৬টি বই দেখাবো
+          
           setBooks(result.data.slice(0, 6));
         }
       } catch (error) {
@@ -79,7 +79,7 @@ export default function NewArrivals() {
               <p className="text-sm text-gray-600 dark:text-gray-400">By {book.author}</p>
               
               <div className="card-actions justify-end mt-4">
-                {/* এখানে book._id ব্যবহার করা হয়েছে, তাই আসল পেজে যাবে */}
+                
                 <Link 
                   href={`/books/${book._id}`} 
                   className="btn btn-primary btn-sm w-full text-white font-medium"
