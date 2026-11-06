@@ -26,12 +26,10 @@ export default function MyBooksPage() {
   const fetchMyBooks = async () => {
     if (!session?.user?.email) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/my-books?email=${session.user.email}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-books?email=${session.user.email}`);
       const result = await response.json();
       if (result.success) setBooks(result.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
+    } catch (error) {} finally {
       setLoading(false);
     }
   };
@@ -50,24 +48,16 @@ export default function MyBooksPage() {
     setIsDeleteModalOpen(true);
   };
 
-  
   const confirmDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/books/${deleteBookId}`, { 
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${session?.session?.token || ""}` // টোকেন পাঠানো হচ্ছে
-        }
-      });
-      
-      const result = await response.json();
-      
-      // Unauthorized 
-      if (response.status === 401 || response.status === 403) {
-        showToast("Unauthorized! Please login again.", "error");
-        return;
-      }
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token || session?.session?.token;
 
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${deleteBookId}`, { 
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const result = await response.json();
       if (result.success) {
         setBooks(books.filter((b) => b._id !== deleteBookId));
         showToast("Book deleted successfully", "success");
@@ -85,27 +75,22 @@ export default function MyBooksPage() {
     setIsEditModalOpen(true);
   };
 
-  
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/books/${editBook._id}`, {
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token || session?.session?.token;
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${editBook._id}`, {
         method: "PATCH",
         headers: { 
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${session?.session?.token || ""}` // টোকেন পাঠানো হচ্ছে
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(editBook),
       });
-      
       const result = await response.json();
       
-      // Unauthorized 
-      if (response.status === 401 || response.status === 403) {
-        showToast("Unauthorized! Please login again.", "error");
-        return;
-      }
-
       if (result.success) {
         setBooks(books.map((b) => (b._id === editBook._id ? editBook : b)));
         showToast("Book updated successfully", "success");
@@ -125,7 +110,6 @@ export default function MyBooksPage() {
     <div className="max-w-5xl mx-auto px-4 py-10 min-h-screen relative">
       <h2 className="text-3xl font-bold text-base-content mb-8">My Added Books</h2>
 
-      {/* টোস্ট মেসেজ */}
       {toast.show && (
         <div className="fixed top-20 right-5 z-50">
           <div className={`alert ${toast.type === "success" ? "alert-success" : "alert-error"} shadow-lg text-white`}>
@@ -144,10 +128,7 @@ export default function MyBooksPage() {
           <table className="table w-full">
             <thead>
               <tr className="bg-base-200 text-base-content">
-                <th>Image</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Actions</th>
+                <th>Image</th><th>Title</th><th>Author</th><th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -173,7 +154,6 @@ export default function MyBooksPage() {
         </div>
       )}
 
-      {/* এডিট মডাল */}
       {isEditModalOpen && editBook && (
         <div className="modal modal-open">
           <div className="modal-box bg-base-100 border border-base-content/10">
@@ -191,7 +171,6 @@ export default function MyBooksPage() {
                 <label className="label"><span className="label-text font-semibold text-base-content">Description</span></label>
                 <textarea value={editBook.description} onChange={(e) => setEditBook({...editBook, description: e.target.value})} className="textarea textarea-bordered w-full" required></textarea>
               </div>
-              
               <div className="modal-action">
                 <button type="button" onClick={() => setIsEditModalOpen(false)} className="btn">Cancel</button>
                 <button type="submit" className="btn btn-primary text-white">Save Changes</button>
@@ -201,12 +180,11 @@ export default function MyBooksPage() {
         </div>
       )}
 
-      {/* ডিলিট কনফার্ম মডাল */}
       {isDeleteModalOpen && (
         <div className="modal modal-open">
           <div className="modal-box bg-base-100 border border-base-content/10 text-center">
             <h3 className="font-bold text-2xl text-error mb-4">Delete Book?</h3>
-            <p className="text-base-content/80 mb-6">Are you sure you want to delete this book? This action cannot be undone.</p>
+            <p className="text-base-content/80 mb-6">Are you sure you want to delete this book?</p>
             <div className="modal-action justify-center">
               <button onClick={() => setIsDeleteModalOpen(false)} className="btn">Cancel</button>
               <button onClick={confirmDelete} className="btn btn-error text-white">Yes, Delete</button>

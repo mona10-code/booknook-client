@@ -21,12 +21,14 @@ export default function MyBorrowsPage() {
   const fetchBorrows = async () => {
     if (!session?.user?.email) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/my-borrows?email=${session.user.email}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-borrows?email=${session.user.email}`, {
+        headers: {
+          "Authorization": `Bearer ${session?.session?.token || ""}`
+        }
+      });
       const result = await response.json();
       if (result.success) setBorrows(result.data);
-    } catch (error) {
-      console.error("Failed to fetch borrows", error);
-    } finally {
+    } catch (error) {} finally {
       setLoading(false);
     }
   };
@@ -42,8 +44,15 @@ export default function MyBorrowsPage() {
 
   const handleReturn = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/borrows/${id}`, {
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token || session?.session?.token;
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/borrows/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
       });
       const result = await response.json();
       
@@ -68,7 +77,6 @@ export default function MyBorrowsPage() {
     <div className="max-w-5xl mx-auto px-4 py-10 min-h-screen relative">
       <h2 className="text-3xl font-bold text-base-content mb-8">My Borrowed Books</h2>
 
-      {/* টোস্ট মেসেজ */}
       {toast.show && (
         <div className="fixed top-20 right-5 z-50">
           <div className={`alert ${toast.type === "success" ? "alert-success" : "alert-error"} shadow-lg text-white`}>
@@ -87,11 +95,7 @@ export default function MyBorrowsPage() {
           <table className="table w-full">
             <thead>
               <tr className="bg-base-200 text-base-content">
-                <th>Image</th>
-                <th>Title</th>
-                <th>Borrow Date</th>
-                <th>Return Date</th>
-                <th>Action</th>
+                <th>Image</th><th>Title</th><th>Borrow Date</th><th>Return Date</th><th>Action</th>
               </tr>
             </thead>
             <tbody>

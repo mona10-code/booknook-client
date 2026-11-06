@@ -24,7 +24,6 @@ export default function RootLayout({ children }) {
       
       <body className="flex flex-col min-h-screen bg-base-100 text-base-content transition-colors duration-300">
         <Navbar />
-        
         <main className="grow">
           {children}
         </main>
