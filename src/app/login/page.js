@@ -101,7 +101,7 @@ export default function LoginPage() {
 
           <div className="divider text-base-content/50 text-sm">OR</div>
 
-          {/* গুগল লগইন বাটন */}
+
           <button 
             type="button" 
             onClick={handleGoogleLogin} 

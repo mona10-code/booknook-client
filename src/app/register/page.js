@@ -52,7 +52,7 @@ export default function RegisterPage() {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/", // লগইন সফল হলে হোম পেজে নিয়ে যাবে
+        callbackURL: "/", 
       });
     } catch (err) {
       setError("Failed to login with Google.");
@@ -104,7 +104,7 @@ export default function RegisterPage() {
 
                     <div className="divider text-base-content/50 text-sm">OR</div>
 
-          {/* গুগল লগইন বাটন */}
+          
           <button 
             type="button" 
             onClick={handleGoogleLogin} 

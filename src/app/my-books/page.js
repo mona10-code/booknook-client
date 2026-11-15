@@ -39,7 +39,7 @@ export default function MyBooksPage() {
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-books?email=${session.user.email}`, {
         headers: {
-          "Authorization": `Bearer ${token}` // <-- টোকেন পাঠানো হলো
+          "Authorization": `Bearer ${token}` 
         }
       });
       const result = await response.json();
@@ -66,7 +66,7 @@ export default function MyBooksPage() {
 
   const confirmDelete = async () => {
     try {
-      // BetterAuth থেকে টোকেন নেওয়া
+      
       const { data, error} = await authClient.token();
       
       if (error) {
@@ -101,7 +101,7 @@ export default function MyBooksPage() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      // BetterAuth থেকে টোকেন নেওয়া
+      
       const { data, error} = await authClient.token();
       
       if (error) {

@@ -36,20 +36,13 @@ export default function BorrowButton({ book, token }) {
         body: JSON.stringify(borrowData),
       });
       
-      // if (response.ok) {
-      //   const result = await response.json();
-      //   showToast("Book borrowed successfully!", "success");
-      //   setIsOpen(false);
-      // } else {
-      //   showToast(result.message || result.msg, "error");
-      // }
           if (response.ok) {
               showToast("Book borrowed successfully!", "success");
               setIsOpen(false);
 
               setTimeout(() => window.location.reload(), 1500);
       } else {
-        // এরর হলে সার্ভারের মেসেজ দেখাও
+        
         const errorResult = await response.json();
         showToast(errorResult.message || errorResult.msg || "Failed to borrow book", "error");
       }

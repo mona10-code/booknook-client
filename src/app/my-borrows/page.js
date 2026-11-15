@@ -21,7 +21,7 @@ export default function MyBorrowsPage() {
     const fetchBorrows = async () => {
     if (!session?.user?.email) return;
     try {
-      // টোকেন নেওয়া
+      
       // BetterAuth থেকে টোকেন নেওয়া
       const { data, error} = await authClient.token();
       
@@ -34,7 +34,7 @@ export default function MyBorrowsPage() {
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-borrows?email=${session.user.email}`, {
         headers: {
-          "Authorization": `Bearer ${token}` // <-- টোকেন পাঠানো হলো
+          "Authorization": `Bearer ${token}` 
         }
       });
       const result = await response.json();
@@ -84,42 +84,11 @@ export default function MyBorrowsPage() {
         showToast(errorResult.message || errorResult.msg || "Failed to return book", "error");
       }
     } catch (err) {
-      console.log("Return Error:", err);
+      // console.log("Return Error:", err);
       showToast("Failed to return book.", "error");
     }
   };
 
-  // const handleReturn = async (id) => {
-  //   try {
-  //    // BetterAuth থেকে টোকেন নেওয়া
-  //     const { data, error} = await authClient.token();
-      
-  //     if (error) {
-  //       throw new Error("Failed to get token");
-  //     }
-
-  //     const token = data?.token;
-
-
-  //     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/borrows/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": `Bearer ${token}`
-  //       }
-  //     });
-      
-  //     if (response.ok) {
-  //       const result = await response.json();
-  //       setBorrows(borrows.filter((b) => b._id !== id));
-  //       showToast("Book returned successfully!", "success");
-  //     } else {
-  //       showToast(result.message || result.msg, "error");
-  //     }
-  //   } catch (error) {
-  //     showToast("Failed to return book.", "error");
-  //   }
-  // };
 
   if (isPending || loading) {
     return <div className="text-center mt-20"><span className="loading loading-spinner loading-lg text-primary"></span></div>;

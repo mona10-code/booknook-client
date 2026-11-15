@@ -15,13 +15,11 @@ export default async function BookDetailsPage({ params }) {
 async function BookDetailsContent({ params }) {
   const { id } = await params;
 
-  // Programming Hero-এর মতো সরাসরি auth থেকে টোকেন নেওয়া
   const tokenData = await auth.api.getToken({
     headers: await headers(),
   });
   const token = tokenData?.token;
 
-  // সার্ভার থেকেই ডাটা ফেচ করা
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${id}`);
   const result = await response.json();
   const book = result.data;
@@ -55,7 +53,7 @@ async function BookDetailsContent({ params }) {
             <p><strong>Available Copies:</strong> <span className="font-bold text-primary">{book.totalCopies || 0}</span></p>
           </div>
 
-          {/* Borrow বাটন (ক্লায়েন্ট কম্পোনেন্টে পাঠানো হলো) */}
+          {/* Borrow button */}
           <div className="mt-auto">
             <BorrowButton book={book} token={token} />
           </div>
