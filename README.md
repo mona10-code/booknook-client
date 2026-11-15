@@ -1,21 +1,21 @@
 # BookNook - A Small Online Library (Client)
 
-A modern, responsive online library platform where users can explore, borrow, and share their favorite books. This is the frontend repository built with Next.js.
+BookNook is a modern, responsive online library platform where users can explore, borrow, and share their favorite books. This is the frontend repository built with Next.js.
 
 ## 🔗 Live Site
-- **Live URL:** [Will be added after deployment]
+- **Live Website:** https://booknook-client-topaz.vercel.app
 
 ## ✨ Key Features
-- **User Authentication:** Secure login and registration using BetterAuth (Email/Password & Google OAuth).
-- **Dynamic Book Catalog:** Browse all available books with a beautiful grid layout and detail pages.
-- **Borrowing System:** Logged-in users can borrow books, track return dates, and return them easily.
-- **Add & Manage Books:** Users can add new books (with ImgBB image upload) and edit or delete their own added books.
-- **Dark/Light Theme:** Fully responsive design with a seamless dark and light mode toggle.
+- **Secure Authentication:** User login and registration using BetterAuth (Email/Password and Google OAuth).
+- **Dynamic Book Catalog:** Browse all available books with a responsive grid layout and detailed book information pages.
+- **Borrowing System:** Logged-in users can borrow books, track return dates in "My Borrows," and return them with automatic stock updates.
+- **Book Management (CRUD):** Users can add new books with ImgBB image uploads, and edit or delete their own added books.
+- **Dark/Light Theme:** A seamless and fully responsive UI with a built-in dark and light mode toggle for better user experience.
 
 ## 💻 Tech Stack
 - **Framework:** Next.js (App Router)
 - **Styling:** Tailwind CSS, DaisyUI
-- **Authentication:** BetterAuth, MongoDB Adapter
+- **Authentication:** BetterAuth, MongoDB Adapter, JWT
 - **Icons/Animation:** React Icons, Swiper.js
 
 ## 🚀 How to Run Locally
