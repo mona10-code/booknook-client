@@ -31,7 +31,7 @@ export default function BorrowButton({ book, token }) {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` // এখানে সার্ভার থেকে পাওয়া টোকেন যাচ্ছে
+          "Authorization": `Bearer ${token}` 
         },
         body: JSON.stringify(borrowData),
       });
