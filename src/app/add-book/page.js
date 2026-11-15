@@ -62,12 +62,18 @@ export default function AddBookPage() {
         userName: session.user.name, 
         addedAt: new Date() 
       };
+      bookDataToSave.totalCopies = Number(bookDataToSave.totalCopies);
 
-      // টোকেন নেওয়া
-      const { data: tokenData } = await authClient.token();
-      const token = tokenData?.token || session?.session?.token;
+      // BetterAuth থেকে টোকেন নেওয়া
+      const { data, error} = await authClient.token();
+      
+      if (error) {
+        throw new Error("Failed to get token");
+      }
 
-      // সার্ভারে পাঠানো
+      const token = data?.token;
+
+      // সার্ভারে ডাটা পাঠানো
       const serverResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books`, {
         method: "POST",
         headers: { 
@@ -85,7 +91,7 @@ export default function AddBookPage() {
         setImageFile(null);
         setTimeout(() => router.push("/books"), 2000);
       } else {
-        throw new Error(serverResult.message);
+        throw new Error(serverResult.message || serverResult.msg);
       }
     } catch (error) {
       showToast(error.message, "error");

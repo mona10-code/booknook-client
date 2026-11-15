@@ -10,12 +10,12 @@ export default function NewArrivals() {
     
     const fetchBooks = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/new-arrivals`);
         const result = await response.json();
         
         if (result.success) {
           
-          setBooks(result.data.slice(0, 6));
+          setBooks(result.data);
         }
       } catch (error) {
         console.error("Failed to fetch new arrivals", error);

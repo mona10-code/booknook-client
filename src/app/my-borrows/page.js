@@ -18,17 +18,32 @@ export default function MyBorrowsPage() {
     }
   }, [session, isPending, router]);
 
-  const fetchBorrows = async () => {
+    const fetchBorrows = async () => {
     if (!session?.user?.email) return;
     try {
+      // টোকেন নেওয়া
+      // BetterAuth থেকে টোকেন নেওয়া
+      const { data, error} = await authClient.token();
+      
+      if (error) {
+        throw new Error("Failed to get token");
+      }
+
+      const token = data?.token;
+
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-borrows?email=${session.user.email}`, {
         headers: {
-          "Authorization": `Bearer ${session?.session?.token || ""}`
+          "Authorization": `Bearer ${token}` // <-- টোকেন পাঠানো হলো
         }
       });
       const result = await response.json();
       if (result.success) setBorrows(result.data);
-    } catch (error) {} finally {
+    } catch (error) {
+
+      console.error(error);
+
+    } finally {
       setLoading(false);
     }
   };
@@ -44,28 +59,67 @@ export default function MyBorrowsPage() {
 
   const handleReturn = async (id) => {
     try {
-      const { data: tokenData } = await authClient.token();
-      const token = tokenData?.token || session?.session?.token;
+      // ১. টোকেন নেওয়া
+      const { data, error } = await authClient.token();
+      if (error) {
+        throw new Error("Failed to get token");
+      }
+      const token = data?.token;
 
+      // ২. সার্ভারে রিকোয়েস্ট পাঠানো
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/borrows/${id}`, {
         method: "DELETE",
-        headers: {
+        headers: { 
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         }
       });
-      const result = await response.json();
       
-      if (result.success) {
+      // ৩. রেসপন্স চেক করা
+      if (response.ok) {
         setBorrows(borrows.filter((b) => b._id !== id));
         showToast("Book returned successfully!", "success");
       } else {
-        showToast(result.message, "error");
+        const errorResult = await response.json();
+        showToast(errorResult.message || errorResult.msg || "Failed to return book", "error");
       }
-    } catch (error) {
+    } catch (err) {
+      console.log("Return Error:", err);
       showToast("Failed to return book.", "error");
     }
   };
+
+  // const handleReturn = async (id) => {
+  //   try {
+  //    // BetterAuth থেকে টোকেন নেওয়া
+  //     const { data, error} = await authClient.token();
+      
+  //     if (error) {
+  //       throw new Error("Failed to get token");
+  //     }
+
+  //     const token = data?.token;
+
+
+  //     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/borrows/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": `Bearer ${token}`
+  //       }
+  //     });
+      
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       setBorrows(borrows.filter((b) => b._id !== id));
+  //       showToast("Book returned successfully!", "success");
+  //     } else {
+  //       showToast(result.message || result.msg, "error");
+  //     }
+  //   } catch (error) {
+  //     showToast("Failed to return book.", "error");
+  //   }
+  // };
 
   if (isPending || loading) {
     return <div className="text-center mt-20"><span className="loading loading-spinner loading-lg text-primary"></span></div>;

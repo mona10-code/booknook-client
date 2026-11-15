@@ -23,13 +23,29 @@ export default function MyBooksPage() {
     }
   }, [session, isPending, router]);
 
-  const fetchMyBooks = async () => {
+    const fetchMyBooks = async () => {
     if (!session?.user?.email) return;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-books?email=${session.user.email}`);
+      
+     // BetterAuth থেকে টোকেন নেওয়া
+      const { data, error} = await authClient.token();
+      
+      if (error) {
+        throw new Error("Failed to get token");
+      }
+
+      const token = data?.token;
+
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-books?email=${session.user.email}`, {
+        headers: {
+          "Authorization": `Bearer ${token}` // <-- টোকেন পাঠানো হলো
+        }
+      });
       const result = await response.json();
       if (result.success) setBooks(result.data);
-    } catch (error) {} finally {
+    } catch (error) {
+    } finally {
       setLoading(false);
     }
   };
@@ -50,8 +66,15 @@ export default function MyBooksPage() {
 
   const confirmDelete = async () => {
     try {
-      const { data: tokenData } = await authClient.token();
-      const token = tokenData?.token || session?.session?.token;
+      // BetterAuth থেকে টোকেন নেওয়া
+      const { data, error} = await authClient.token();
+      
+      if (error) {
+        throw new Error("Failed to get token");
+      }
+
+      const token = data?.token;
+
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${deleteBookId}`, { 
         method: "DELETE",
@@ -63,7 +86,7 @@ export default function MyBooksPage() {
         showToast("Book deleted successfully", "success");
         setIsDeleteModalOpen(false);
       } else {
-        showToast(result.message, "error");
+        showToast(result.message || result.msg, "error");
       }
     } catch (error) {
       showToast("Failed to delete book", "error");
@@ -78,8 +101,15 @@ export default function MyBooksPage() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const { data: tokenData } = await authClient.token();
-      const token = tokenData?.token || session?.session?.token;
+      // BetterAuth থেকে টোকেন নেওয়া
+      const { data, error} = await authClient.token();
+      
+      if (error) {
+        throw new Error("Failed to get token");
+      }
+
+      const token = data?.token;
+
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${editBook._id}`, {
         method: "PATCH",
@@ -96,7 +126,7 @@ export default function MyBooksPage() {
         showToast("Book updated successfully", "success");
         setIsEditModalOpen(false);
       } else {
-        showToast(result.message, "error");
+        showToast(result.message || result.msg, "error");
       }
     } catch (error) {
       showToast("Failed to update book", "error");
